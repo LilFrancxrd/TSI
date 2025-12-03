@@ -1,0 +1,503 @@
+import java.sql.*;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.text.SimpleDateFormat;
+public class DetalleBoleta extends javax.swing.JDialog {
+
+    private DefaultTableModel modeloDetalles;
+    private int idBoleta;
+    private String usuario;
+    private boolean permisos;
+    /**
+     * Creates new form DetalleBoleta
+     */
+    public DetalleBoleta(int idBoleta) {
+        this.idBoleta = idBoleta;
+        this.usuario = usuario;
+        this.permisos = permisos;
+        initComponents();
+        inicializarComponentes();
+        cargarDetallesBoleta();
+        setModal(true);
+    }
+
+    private void inicializarComponentes() {
+        modeloDetalles = (DefaultTableModel) tablaProductosVendidos.getModel();
+        tablaProductosVendidos.setDefaultEditor(Object.class, null);
+    }    
+    
+    
+    private void cargarDetallesBoleta() {
+        modeloDetalles.setRowCount(0);
+        
+        // Cargar información general de la boleta
+        String sqlInfo = "SELECT b.*, d.nomDeudor, d.rutDeudor " +
+                        "FROM boletas b " +
+                        "LEFT JOIN deudas deu ON b.idBoleta = deu.idBoleta " +
+                        "LEFT JOIN deudores d ON deu.rutDeudor = d.rutDeudor " +
+                        "WHERE b.idBoleta = ?";
+        
+        // Cargar productos de la boleta
+        String sqlProductos = "SELECT dbp.*, p.nomProducto " +
+                             "FROM detalleboletaproductos dbp " +
+                             "JOIN productos p ON dbp.codProducto = p.codProducto " +
+                             "WHERE dbp.idBoleta = ?";
+        
+        try (Connection conn = obtenerConexion()) {
+            
+            // 1. Cargar información general
+            PreparedStatement pstmtInfo = conn.prepareStatement(sqlInfo);
+            pstmtInfo.setInt(1, idBoleta);
+            ResultSet rsInfo = pstmtInfo.executeQuery();
+            
+            if (rsInfo.next()) {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                
+                lblNumBoleta.setText(String.valueOf(idBoleta));
+                lblFecha.setText(sdf.format(rsInfo.getTimestamp("fechaTramite")));
+                lblUsuario.setText(rsInfo.getString("rutUsuario"));
+                lblMedioPago.setText(rsInfo.getString("medioPago"));
+                
+                double totalPagado = rsInfo.getDouble("totalPagados");
+                double totalFiado = rsInfo.getDouble("totalFiado");
+                double totalVenta = totalPagado + totalFiado;
+                
+                lblTotalVenta.setText(String.format("$%,.0f", totalVenta));
+                lblTotalPagado.setText(String.format("$%,.0f", totalPagado));
+                lblTotalFiado.setText(String.format("$%,.0f", totalFiado));
+            }
+            rsInfo.close();
+            pstmtInfo.close();
+            
+            // 2. Cargar productos
+            PreparedStatement pstmtProd = conn.prepareStatement(sqlProductos);
+            pstmtProd.setInt(1, idBoleta);
+            ResultSet rsProd = pstmtProd.executeQuery();
+            
+            double sumaSubtotales = 0;
+            int totalProductos = 0;
+            
+            while (rsProd.next()) {
+                String nombreProducto = rsProd.getString("nomProducto");
+                int cantidad = rsProd.getInt("cantidad");
+                double precioUnitario = rsProd.getDouble("precioUnitario");
+                double totalPago = rsProd.getDouble("totalPago");
+                double totalFiado = rsProd.getDouble("totalFiado");
+                double subtotal = precioUnitario * cantidad;
+                
+                // Determinar si el producto fue fiado
+                String estado = (totalFiado > 0) ? "Fiado" : "Pagado";
+                
+                modeloDetalles.addRow(new Object[]{
+                    nombreProducto,
+                    String.format("$%,.0f", precioUnitario),
+                    cantidad,
+                    String.format("$%,.0f", subtotal),
+                    estado
+                });
+                
+                sumaSubtotales += subtotal;
+                totalProductos += cantidad;
+            }
+            
+            lblTotalProductos.setText(String.valueOf(totalProductos));
+            lblSumaSubtotales.setText(String.format("$%,.0f", sumaSubtotales));
+            
+            rsProd.close();
+            pstmtProd.close();
+            
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this,
+                "Error al cargar detalles: " + e.getMessage(),
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+    
+    
+    private Connection obtenerConexion() throws SQLException {
+        String url = "jdbc:mysql://localhost:3306/vistaalmar";
+        String user = "root";
+        String password = "";
+        
+        return DriverManager.getConnection(url, user, password);
+    }
+    
+    
+ 
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        lbltituloBoleta = new javax.swing.JLabel();
+        lblNumBoleta = new javax.swing.JLabel();
+        lblnfoGeneral = new javax.swing.JLabel();
+        lblTiFecha = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        lblTiUsuario = new javax.swing.JLabel();
+        lblTiMedioPago = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        lblFecha = new javax.swing.JLabel();
+        lblMedioPago = new javax.swing.JLabel();
+        lblUsuario = new javax.swing.JLabel();
+        canvas1 = new java.awt.Canvas();
+        lblSumaSubtotales = new javax.swing.JLabel();
+        lblTotalFiado = new javax.swing.JLabel();
+        lblTotalVenta = new javax.swing.JLabel();
+        lbTiTotales = new javax.swing.JLabel();
+        lblTiTotalVenta = new javax.swing.JLabel();
+        lblTiTotalFiado = new javax.swing.JLabel();
+        lblTiSumaSubtotales = new javax.swing.JLabel();
+        lblTiTotalPagado = new javax.swing.JLabel();
+        lblTiTotalProductos = new javax.swing.JLabel();
+        lblTotalPagado = new javax.swing.JLabel();
+        lblTotalProductos = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        lblTiProductosVendidos = new javax.swing.JLabel();
+        panelProductosVendidos = new javax.swing.JScrollPane();
+        tablaProductosVendidos = new javax.swing.JTable();
+        btnCerrar = new javax.swing.JButton();
+        jSeparator3 = new javax.swing.JSeparator();
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                exitForm(evt);
+            }
+        });
+
+        lbltituloBoleta.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lbltituloBoleta.setText("Boleta #");
+
+        lblNumBoleta.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblNumBoleta.setText("numBoleta");
+
+        lblnfoGeneral.setBackground(new java.awt.Color(153, 153, 153));
+        lblnfoGeneral.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblnfoGeneral.setForeground(new java.awt.Color(102, 102, 102));
+        lblnfoGeneral.setText("Informacion General");
+
+        lblTiFecha.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTiFecha.setText("Fecha:");
+
+        lblTiUsuario.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTiUsuario.setText("Usuario:");
+
+        lblTiMedioPago.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTiMedioPago.setText("Medio de Pago:");
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+
+        lblFecha.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblFecha.setForeground(new java.awt.Color(102, 102, 102));
+        lblFecha.setText("fechaExample");
+
+        lblMedioPago.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblMedioPago.setForeground(new java.awt.Color(102, 102, 102));
+        lblMedioPago.setText("medioPagoExample");
+
+        lblUsuario.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblUsuario.setForeground(new java.awt.Color(102, 102, 102));
+        lblUsuario.setText("usuarioExample");
+
+        lblSumaSubtotales.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblSumaSubtotales.setForeground(new java.awt.Color(102, 102, 102));
+        lblSumaSubtotales.setText("subtotalesexample");
+
+        lblTotalFiado.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTotalFiado.setForeground(new java.awt.Color(255, 51, 51));
+        lblTotalFiado.setText("fiadoExample");
+
+        lblTotalVenta.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTotalVenta.setForeground(new java.awt.Color(51, 102, 255));
+        lblTotalVenta.setText("TotalExample");
+
+        lbTiTotales.setBackground(new java.awt.Color(153, 153, 153));
+        lbTiTotales.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lbTiTotales.setForeground(new java.awt.Color(102, 102, 102));
+        lbTiTotales.setText("Totales");
+
+        lblTiTotalVenta.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        lblTiTotalVenta.setText("Total Venta:");
+
+        lblTiTotalFiado.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTiTotalFiado.setText("Total Fiado:");
+
+        lblTiSumaSubtotales.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTiSumaSubtotales.setText("Suma Subtotales:");
+
+        lblTiTotalPagado.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTiTotalPagado.setText("Total Pagado:");
+
+        lblTiTotalProductos.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTiTotalProductos.setText("Total Productos: ");
+
+        lblTotalPagado.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTotalPagado.setForeground(new java.awt.Color(0, 204, 0));
+        lblTotalPagado.setText("pagadoexample");
+
+        lblTotalProductos.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTotalProductos.setForeground(new java.awt.Color(102, 102, 102));
+        lblTotalProductos.setText("totalproductosexample");
+
+        lblTiProductosVendidos.setBackground(new java.awt.Color(153, 153, 153));
+        lblTiProductosVendidos.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTiProductosVendidos.setForeground(new java.awt.Color(102, 102, 102));
+        lblTiProductosVendidos.setText("Productos Vendidos");
+
+        tablaProductosVendidos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Producto", "Precio Unitario", "Cantidad", "Total"
+            }
+        ));
+        panelProductosVendidos.setViewportView(tablaProductosVendidos);
+
+        btnCerrar.setBackground(new java.awt.Color(255, 51, 51));
+        btnCerrar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnCerrar.setForeground(new java.awt.Color(255, 255, 255));
+        btnCerrar.setText("Volver");
+        btnCerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarActionPerformed(evt);
+            }
+        });
+
+        jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(165, 165, 165))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lblTiProductosVendidos)
+                                .addGap(658, 658, 658)
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 817, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(lblnfoGeneral)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(lblTiUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(67, 67, 67)
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(lblUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(lblTiFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(lblTiMedioPago)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(lblMedioPago)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGap(11, 11, 11)
+                                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(44, 44, 44)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbTiTotales)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblTiTotalFiado)
+                                            .addComponent(lblTiSumaSubtotales)
+                                            .addComponent(lblTiTotalVenta))
+                                        .addGap(12, 12, 12)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblTotalVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblSumaSubtotales, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblTotalFiado))
+                                        .addGap(49, 49, 49)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(lblTiTotalProductos)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(lblTotalProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(lblTiTotalPagado)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(lblTotalPagado, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                            .addComponent(panelProductosVendidos, javax.swing.GroupLayout.PREFERRED_SIZE, 815, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(7, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lbltituloBoleta)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblNumBoleta)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnCerrar)
+                        .addGap(60, 60, 60))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbltituloBoleta)
+                    .addComponent(lblNumBoleta)
+                    .addComponent(btnCerrar))
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbTiTotales, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblnfoGeneral))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(45, 45, 45)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblTiTotalProductos)
+                                    .addComponent(lblTotalProductos))
+                                .addGap(18, 18, 18))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblTiFecha)
+                                    .addComponent(lblFecha)
+                                    .addComponent(lblTiTotalVenta)
+                                    .addComponent(lblTotalVenta)
+                                    .addComponent(lblTiTotalPagado)
+                                    .addComponent(lblTotalPagado))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblTiUsuario)
+                                    .addComponent(lblUsuario)
+                                    .addComponent(lblTiTotalFiado)
+                                    .addComponent(lblTotalFiado))
+                                .addGap(12, 12, 12)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblTiMedioPago)
+                            .addComponent(lblMedioPago)
+                            .addComponent(lblTiSumaSubtotales)
+                            .addComponent(lblSumaSubtotales)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(27, 27, 27)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8)
+                    .addComponent(lblTiProductosVendidos))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelProductosVendidos, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(89, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    /**
+     * Exit the Application
+     */
+    private void exitForm(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_exitForm
+        System.exit(0);
+    }//GEN-LAST:event_exitForm
+
+    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCerrarActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(DetalleBoleta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(DetalleBoleta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(DetalleBoleta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(DetalleBoleta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                DetalleBoleta dialog = new DetalleBoleta(1); // Ejemplo con ID 1
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCerrar;
+    private java.awt.Canvas canvas1;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JLabel lbTiTotales;
+    private javax.swing.JLabel lblFecha;
+    private javax.swing.JLabel lblMedioPago;
+    private javax.swing.JLabel lblNumBoleta;
+    private javax.swing.JLabel lblSumaSubtotales;
+    private javax.swing.JLabel lblTiFecha;
+    private javax.swing.JLabel lblTiMedioPago;
+    private javax.swing.JLabel lblTiProductosVendidos;
+    private javax.swing.JLabel lblTiSumaSubtotales;
+    private javax.swing.JLabel lblTiTotalFiado;
+    private javax.swing.JLabel lblTiTotalPagado;
+    private javax.swing.JLabel lblTiTotalProductos;
+    private javax.swing.JLabel lblTiTotalVenta;
+    private javax.swing.JLabel lblTiUsuario;
+    private javax.swing.JLabel lblTotalFiado;
+    private javax.swing.JLabel lblTotalPagado;
+    private javax.swing.JLabel lblTotalProductos;
+    private javax.swing.JLabel lblTotalVenta;
+    private javax.swing.JLabel lblUsuario;
+    private javax.swing.JLabel lblnfoGeneral;
+    private javax.swing.JLabel lbltituloBoleta;
+    private javax.swing.JScrollPane panelProductosVendidos;
+    private javax.swing.JTable tablaProductosVendidos;
+    // End of variables declaration//GEN-END:variables
+}

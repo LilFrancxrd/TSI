@@ -27,7 +27,7 @@ public class PagarDeudaDialog extends java.awt.Frame {
     public PagarDeudaDialog(java.awt.Frame parent, int rutDeudor, String nombreDeudor, int deudaTotal, 
                             String usuario, boolean permisos, int idBoletaEspecifica) {
         this(parent, rutDeudor, nombreDeudor, deudaTotal, usuario, permisos);
-        this.idBoletaEspecifica = idBoletaEspecifica; // Necesitas agregar esta variable de instancia
+        this.idBoletaEspecifica = idBoletaEspecifica; 
     }
     
     public PagarDeudaDialog(java.awt.Frame parent, int rutDeudor, String nombreDeudor, int deudaTotal) {
@@ -222,12 +222,8 @@ public class PagarDeudaDialog extends java.awt.Frame {
         setTitle("Pagar Deuda - Usuario: " + usuario);
         
         if (!permisos) {
-            btnProcesar.setEnabled(false);
-            btnProcesar.setToolTipText("No tiene permisos para realizar pagos");
-            JOptionPane.showMessageDialog(this,
-                "Usted no tiene permisos para realizar pagos",
-                "Permisos Insuficientes",
-                JOptionPane.WARNING_MESSAGE);
+            btnProcesar.setEnabled(true);
+            btnProcesar.setToolTipText("");
         }
     }
     private void configurarComponentes() {

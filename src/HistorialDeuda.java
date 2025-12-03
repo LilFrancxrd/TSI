@@ -218,8 +218,8 @@ public class HistorialDeuda extends java.awt.Frame {
         setTitle("Historial de Deudas - Usuario: " + usuario);
         
         if (!permisos) {
-            btnPagarDeuda.setEnabled(false);
-            btnPagarDeuda.setToolTipText("No tiene permisos para realizar pagos");
+            btnPagarDeuda.setEnabled(true);
+            btnPagarDeuda.setToolTipText("");
         }
         
     }
@@ -656,10 +656,6 @@ public class HistorialDeuda extends java.awt.Frame {
                 }
             }
 
-            JOptionPane.showMessageDialog(this,
-                "La información se ha actualizado correctamente",
-                "Actualización Exitosa",
-                JOptionPane.INFORMATION_MESSAGE);
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,

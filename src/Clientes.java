@@ -29,15 +29,28 @@ public class Clientes extends java.awt.Frame {
     private void configurarSegunUsuario() {
         setTitle("Gestión de Clientes - Usuario: " + usuario);
         
+        // MODIFICADO: Solo el botón "Nuevo Deudor" se deshabilita sin permisos
+        // Pagar deuda e historial están disponibles para todos
         if (!permisos) {
             btnNuevo.setEnabled(false);
-            btnPagarDeuda.setEnabled(false);
-            btnHistorialDeudas.setEnabled(false);
-            JOptionPane.showMessageDialog(this,
-                "Usted tiene permisos de solo lectura",
-                "Permisos Limitados",
-                JOptionPane.INFORMATION_MESSAGE);
+            btnNuevo.setToolTipText("No tiene permisos para crear nuevos deudores");
+            
+            // Opcional: cambiar color del botón para indicar que está deshabilitado
+            btnNuevo.setBackground(new Color(180, 180, 180));
+            
+        } else {
+            // Usuario con permisos completos
+            btnNuevo.setEnabled(true);
+            btnNuevo.setToolTipText("Crear un nuevo deudor en el sistema");
         }
+        
+        // Estos botones siempre están habilitados para todos los usuarios
+        btnPagarDeuda.setEnabled(true);
+        btnHistorialDeudas.setEnabled(true);
+        
+        // Agregar tooltips informativos
+        btnPagarDeuda.setToolTipText("Registrar un pago de deuda (disponible para todos)");
+        btnHistorialDeudas.setToolTipText("Ver historial de deudas del cliente (disponible para todos)");
     }
     
     private void inicializarComponentesAdicionales() {
@@ -124,9 +137,18 @@ public class Clientes extends java.awt.Frame {
     }
     
     private void abrirNuevoDeudor() {
+        // MODIFICADO: Verificar permisos antes de abrir
+        if (!permisos) {
+            JOptionPane.showMessageDialog(this,
+                "No tiene permisos para crear nuevos deudores.\n" +
+                "Contacte al administrador si necesita esta funcionalidad.",
+                "Acceso Denegado",
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
         NuevoDeudor nuevoDeudor = new NuevoDeudor();
         nuevoDeudor.setVisible(true);
-
         nuevoDeudor.setLocationRelativeTo(null);
 
         nuevoDeudor.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -138,6 +160,7 @@ public class Clientes extends java.awt.Frame {
     }
     
     private void abrirHistorialDeudas() {
+        // MODIFICADO: Esta función está disponible para TODOS los usuarios
         int filaSeleccionada = tablaDeudores.getSelectedRow();
         if (filaSeleccionada == -1) {
             JOptionPane.showMessageDialog(this,
@@ -166,6 +189,7 @@ public class Clientes extends java.awt.Frame {
 
             nombreDeudor = (nombreValue != null) ? nombreValue.toString() : "Cliente sin nombre";
 
+            // Se pasan los permisos al historial (aunque todos pueden ver)
             HistorialDeuda historial = new HistorialDeuda(rutDeudor, nombreDeudor, this, usuario, permisos);
             historial.setVisible(true);
 
@@ -187,6 +211,7 @@ public class Clientes extends java.awt.Frame {
     
     
     private void abrirPagarDeuda() {
+        // MODIFICADO: Esta función está disponible para TODOS los usuarios
         int filaSeleccionada = tablaDeudores.getSelectedRow();
         if (filaSeleccionada == -1) {
             JOptionPane.showMessageDialog(this,
@@ -225,14 +250,14 @@ public class Clientes extends java.awt.Frame {
                 return;
             }
 
-            // ABRIR PAGAR DEUDA DIALOG
+            // ABRIR PAGAR DEUDA DIALOG - Disponible para todos los usuarios
             PagarDeudaDialog dialog = new PagarDeudaDialog(
                 this,
                 rutDeudor,
                 nombreDeudor,
                 deudaTotal,
                 usuario,
-                permisos
+                true  // MODIFICADO: Siempre true para permitir pagar deudas
             );
 
             dialog.setLocationRelativeTo(this);
