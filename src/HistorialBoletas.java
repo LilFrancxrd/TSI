@@ -83,31 +83,28 @@ public class HistorialBoletas extends javax.swing.JFrame {
     private void cargarBoletas() {
         modeloBoletas.setRowCount(0);
 
-        // Obtener el tipo de boleta seleccionado
         int indexTipo = cmbTipoBoleta.getSelectedIndex();
 
-        // Definir condiciones según el tipo de boleta (agregar "b." para especificar tabla)
         String regularBoletas = "WHERE b.totalPagados > 0 AND b.totalFiado = 0";
         String fianzaBoletas = "WHERE b.totalFiado > 0";
         String perdidaBoletas = "WHERE b.totalPagados < 0";
         String whereCondition = "";
 
         switch(indexTipo) {
-            case 0: // Todas
+            case 0: 
                 whereCondition = "";
                 break;
-            case 1: // Boletas Ventas Regulares
+            case 1: 
                 whereCondition = regularBoletas;
                 break;
-            case 2: // Boletas Ventas Con Fianza(Deuda)
+            case 2: 
                 whereCondition = fianzaBoletas;
                 break;
-            case 3: // Boletas de Destrucción de Productos
+            case 3: 
                 whereCondition = perdidaBoletas;
                 break;
         }
 
-        // Construir la consulta SQL
         String sql = "SELECT b.idBoleta, b.rutUsuario, b.fechaTramite, " +
                      "b.medioPago, b.totalPagados, b.totalFiado, " +
                      "COUNT(dbp.idBoleta) as numProductos " +
@@ -141,7 +138,6 @@ public class HistorialBoletas extends javax.swing.JFrame {
                 String totalPagadoStr = String.format("$%,.0f", totalPagado);
                 String totalFiadoStr = String.format("$%,.0f", totalFiado);
 
-                // Determinar el tipo de boleta para mostrar en la tabla
                 String tipoBoleta = "";
                 if (totalPagado > 0 && totalFiado == 0) {
                     tipoBoleta = "Venta Regular";
@@ -160,7 +156,7 @@ public class HistorialBoletas extends javax.swing.JFrame {
                     totalPagadoStr,
                     totalFiadoStr,
                     numProductos,
-                    tipoBoleta  // Agregar tipo de boleta como columna
+                    tipoBoleta  
                 });
             }
 
