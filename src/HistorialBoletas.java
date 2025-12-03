@@ -21,6 +21,7 @@ public class HistorialBoletas extends javax.swing.JFrame {
         inicializarComponentes();
         cargarBoletas();
         configurarSegunUsuario();
+       
     }
     
     private void inicializarComponentes() {
@@ -81,21 +82,51 @@ public class HistorialBoletas extends javax.swing.JFrame {
     
     private void cargarBoletas() {
         modeloBoletas.setRowCount(0);
-        
+
+        // Obtener el tipo de boleta seleccionado
+        int indexTipo = cmbTipoBoleta.getSelectedIndex();
+
+        // Definir condiciones según el tipo de boleta (agregar "b." para especificar tabla)
+        String regularBoletas = "WHERE b.totalPagados > 0 AND b.totalFiado = 0";
+        String fianzaBoletas = "WHERE b.totalFiado > 0";
+        String perdidaBoletas = "WHERE b.totalPagados < 0";
+        String whereCondition = "";
+
+        switch(indexTipo) {
+            case 0: // Todas
+                whereCondition = "";
+                break;
+            case 1: // Boletas Ventas Regulares
+                whereCondition = regularBoletas;
+                break;
+            case 2: // Boletas Ventas Con Fianza(Deuda)
+                whereCondition = fianzaBoletas;
+                break;
+            case 3: // Boletas de Destrucción de Productos
+                whereCondition = perdidaBoletas;
+                break;
+        }
+
+        // Construir la consulta SQL
         String sql = "SELECT b.idBoleta, b.rutUsuario, b.fechaTramite, " +
                      "b.medioPago, b.totalPagados, b.totalFiado, " +
                      "COUNT(dbp.idBoleta) as numProductos " +
                      "FROM boletas b " +
-                     "LEFT JOIN detalleboletaproductos dbp ON b.idBoleta = dbp.idBoleta " +
-                     "GROUP BY b.idBoleta, b.rutUsuario, b.fechaTramite, b.medioPago, b.totalPagados, b.totalFiado " +
-                     "ORDER BY b.fechaTramite DESC";
-        
+                     "LEFT JOIN detalleboletaproductos dbp ON b.idBoleta = dbp.idBoleta ";
+
+        if (!whereCondition.isEmpty()) {
+            sql += whereCondition + " ";
+        }
+
+        sql += "GROUP BY b.idBoleta, b.rutUsuario, b.fechaTramite, b.medioPago, b.totalPagados, b.totalFiado " +
+               "ORDER BY b.fechaTramite DESC";
+
         try (Connection conn = obtenerConexion();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
-            
+
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-            
+
             while (rs.next()) {
                 int idBoleta = rs.getInt("idBoleta");
                 String usuarioBoleta = rs.getString("rutUsuario");
@@ -104,12 +135,22 @@ public class HistorialBoletas extends javax.swing.JFrame {
                 double totalPagado = rs.getDouble("totalPagados");
                 double totalFiado = rs.getDouble("totalFiado");
                 int numProductos = rs.getInt("numProductos");
-                
+
                 String fechaStr = (fecha != null) ? sdf.format(new Date(fecha.getTime())) : "-";
                 String totalVenta = String.format("$%,.0f", totalPagado + totalFiado);
                 String totalPagadoStr = String.format("$%,.0f", totalPagado);
                 String totalFiadoStr = String.format("$%,.0f", totalFiado);
-                
+
+                // Determinar el tipo de boleta para mostrar en la tabla
+                String tipoBoleta = "";
+                if (totalPagado > 0 && totalFiado == 0) {
+                    tipoBoleta = "Venta Regular";
+                } else if (totalFiado > 0) {
+                    tipoBoleta = "Con Fianza";
+                } else if (totalPagado < 0) {
+                    tipoBoleta = "Destrucción";
+                }
+
                 modeloBoletas.addRow(new Object[]{
                     idBoleta,
                     usuarioBoleta,
@@ -118,12 +159,13 @@ public class HistorialBoletas extends javax.swing.JFrame {
                     totalVenta,
                     totalPagadoStr,
                     totalFiadoStr,
-                    numProductos
+                    numProductos,
+                    tipoBoleta  // Agregar tipo de boleta como columna
                 });
             }
-            
+
             lblTotalBoletas.setText(String.valueOf(modeloBoletas.getRowCount()));
-            
+
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this,
                 "Error al cargar boletas: " + e.getMessage(),
@@ -266,13 +308,14 @@ public class HistorialBoletas extends javax.swing.JFrame {
     }
 
     private void refrescar() {
+        cmbTipoBoleta.setSelectedIndex(0);
         cargarBoletas();
         txtBuscarBoleta.setText("");
     }
     
     private void volverClientes() {
         this.dispose();
-        new Venta(usuario,permisos).setVisible(true);
+        new VentaFianza(usuario,permisos).setVisible(true);
     }    
     
     private Connection obtenerConexion() throws SQLException {
@@ -305,6 +348,8 @@ public class HistorialBoletas extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JSeparator();
         lbltituloTotal = new javax.swing.JLabel();
         lblTotalBoletas = new javax.swing.JLabel();
+        lblTipoBoleta = new javax.swing.JLabel();
+        cmbTipoBoleta = new javax.swing.JComboBox<>();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -377,6 +422,16 @@ public class HistorialBoletas extends javax.swing.JFrame {
         lblTotalBoletas.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblTotalBoletas.setText("0example");
 
+        lblTipoBoleta.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTipoBoleta.setText("Filtrar Tipo Boleta");
+
+        cmbTipoBoleta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todas", "Boletas Ventas Regulares", "Boletas Ventas Con Fianza(Deuda)", "Boletas de Destrucción de Productos" }));
+        cmbTipoBoleta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbTipoBoletaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -392,12 +447,18 @@ public class HistorialBoletas extends javax.swing.JFrame {
                         .addComponent(lblTotalBoletas, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(14, 14, 14))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lblBuscar)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtBuscarBoleta, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnRecargar)
-                        .addGap(58, 58, 58)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lblBuscar)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtBuscarBoleta, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnRecargar))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lblTipoBoleta, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cmbTipoBoleta, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(38, 38, 38)
                         .addComponent(btnDetalleBoleta)
                         .addGap(18, 18, 18)
                         .addComponent(btnEliminarBoleta)
@@ -419,13 +480,20 @@ public class HistorialBoletas extends javax.swing.JFrame {
                 .addGap(5, 5, 5)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblBuscar)
-                    .addComponent(txtBuscarBoleta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRecargar)
-                    .addComponent(btnDetalleBoleta, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminarBoleta, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnDetalleBoleta, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnEliminarBoleta, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblBuscar)
+                            .addComponent(txtBuscarBoleta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnRecargar))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblTipoBoleta)
+                            .addComponent(cmbTipoBoleta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(11, 11, 11)
@@ -433,7 +501,7 @@ public class HistorialBoletas extends javax.swing.JFrame {
                 .addContainerGap(53, Short.MAX_VALUE))
         );
 
-        add(jPanel1, java.awt.BorderLayout.NORTH);
+        getContentPane().add(jPanel1, java.awt.BorderLayout.NORTH);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -460,6 +528,10 @@ public class HistorialBoletas extends javax.swing.JFrame {
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         volverClientes();
     }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void cmbTipoBoletaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTipoBoletaActionPerformed
+        cargarBoletas();
+    }//GEN-LAST:event_cmbTipoBoletaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -502,10 +574,12 @@ public class HistorialBoletas extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminarBoleta;
     private javax.swing.JButton btnRecargar;
     private javax.swing.JButton btnVolver;
+    private javax.swing.JComboBox<String> cmbTipoBoleta;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lblBuscar;
+    private javax.swing.JLabel lblTipoBoleta;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTotalBoletas;
     private javax.swing.JLabel lbltituloTotal;

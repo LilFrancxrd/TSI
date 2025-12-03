@@ -183,6 +183,9 @@ public class Compra extends javax.swing.JFrame {
             }
         });
 
+        btnPrincipal.setBackground(new java.awt.Color(0, 153, 255));
+        btnPrincipal.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnPrincipal.setForeground(new java.awt.Color(255, 255, 255));
         btnPrincipal.setText("Menu Principal");
         btnPrincipal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -190,6 +193,9 @@ public class Compra extends javax.swing.JFrame {
             }
         });
 
+        btnSalir.setBackground(new java.awt.Color(255, 51, 51));
+        btnSalir.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnSalir.setForeground(new java.awt.Color(255, 255, 255));
         btnSalir.setText("Salir");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -197,6 +203,9 @@ public class Compra extends javax.swing.JFrame {
             }
         });
 
+        btnConfirmar.setBackground(new java.awt.Color(51, 204, 0));
+        btnConfirmar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnConfirmar.setForeground(new java.awt.Color(255, 255, 255));
         btnConfirmar.setText("Confirmar Compra");
         btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -204,6 +213,9 @@ public class Compra extends javax.swing.JFrame {
             }
         });
 
+        cmbBorrar.setBackground(new java.awt.Color(255, 51, 51));
+        cmbBorrar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        cmbBorrar.setForeground(new java.awt.Color(255, 255, 255));
         cmbBorrar.setText("Borrar ");
         cmbBorrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -211,6 +223,9 @@ public class Compra extends javax.swing.JFrame {
             }
         });
 
+        btnIngresar.setBackground(new java.awt.Color(153, 153, 153));
+        btnIngresar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnIngresar.setForeground(new java.awt.Color(255, 255, 255));
         btnIngresar.setText("Ingresar Item");
         btnIngresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -285,7 +300,9 @@ public class Compra extends javax.swing.JFrame {
             }
         });
 
+        btnBuscar.setBackground(new java.awt.Color(153, 153, 153));
         btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
         btnBuscar.setText(" Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -338,7 +355,10 @@ public class Compra extends javax.swing.JFrame {
         lblTotalPrecio.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblTotalPrecio.setText("jLabel2");
 
-        btnProveedores.setText("Menu Proveedores");
+        btnProveedores.setBackground(new java.awt.Color(153, 153, 153));
+        btnProveedores.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnProveedores.setForeground(new java.awt.Color(255, 255, 255));
+        btnProveedores.setText("Volver");
         btnProveedores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnProveedoresActionPerformed(evt);
@@ -431,7 +451,7 @@ public class Compra extends javax.swing.JFrame {
                                         .addComponent(lblTotalPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 639, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 523, Short.MAX_VALUE)
+                        .addGap(18, 517, Short.MAX_VALUE)
                         .addComponent(cmbBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnConfirmar)

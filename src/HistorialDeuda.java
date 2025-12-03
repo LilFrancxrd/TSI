@@ -133,8 +133,14 @@ public class HistorialDeuda extends java.awt.Frame {
         lblProductosBoleta.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblProductosBoleta.setText("Productos de la boleta seleccionada: ");
 
+        btnVerProductos.setBackground(new java.awt.Color(153, 153, 153));
+        btnVerProductos.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnVerProductos.setForeground(new java.awt.Color(255, 255, 255));
         btnVerProductos.setText("Ver Productos");
 
+        btnPagarDeuda.setBackground(new java.awt.Color(51, 204, 0));
+        btnPagarDeuda.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnPagarDeuda.setForeground(new java.awt.Color(255, 255, 255));
         btnPagarDeuda.setText("Pagar Deuda");
 
         btnCerrar.setBackground(new java.awt.Color(51, 153, 255));

@@ -157,6 +157,9 @@ public class ModificarProducto extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        btnRegresar.setBackground(new java.awt.Color(255, 51, 51));
+        btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnRegresar.setForeground(new java.awt.Color(255, 255, 255));
         btnRegresar.setText("Cerrar Sesión");
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -164,6 +167,9 @@ public class ModificarProducto extends javax.swing.JFrame {
             }
         });
 
+        btnSalir.setBackground(new java.awt.Color(255, 51, 51));
+        btnSalir.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnSalir.setForeground(new java.awt.Color(255, 255, 255));
         btnSalir.setText("Salir");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -171,7 +177,9 @@ public class ModificarProducto extends javax.swing.JFrame {
             }
         });
 
-        btnVolver.setBackground(new java.awt.Color(51, 153, 255));
+        btnVolver.setBackground(new java.awt.Color(153, 153, 153));
+        btnVolver.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnVolver.setForeground(new java.awt.Color(255, 255, 255));
         btnVolver.setText("Volver");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -210,6 +218,9 @@ public class ModificarProducto extends javax.swing.JFrame {
             }
         });
 
+        btnOriginal.setBackground(new java.awt.Color(153, 153, 153));
+        btnOriginal.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnOriginal.setForeground(new java.awt.Color(255, 255, 255));
         btnOriginal.setText("<html>Valores Originales</html>");
         btnOriginal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -217,6 +228,9 @@ public class ModificarProducto extends javax.swing.JFrame {
             }
         });
 
+        btnModificar.setBackground(new java.awt.Color(51, 204, 0));
+        btnModificar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnModificar.setForeground(new java.awt.Color(255, 255, 255));
         btnModificar.setText("Modificar");
         btnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

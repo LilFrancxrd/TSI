@@ -120,6 +120,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
         txtPrincipal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txtPrincipal.setText("Menu Principal");
 
+        btnAdministrador.setBackground(new java.awt.Color(153, 153, 153));
+        btnAdministrador.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnAdministrador.setForeground(new java.awt.Color(255, 255, 255));
         btnAdministrador.setText("Administración Usuarios");
         btnAdministrador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -131,6 +134,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
         txtAdvertencia.setForeground(new java.awt.Color(255, 51, 51));
         txtAdvertencia.setText("No tiene Permisos");
 
+        btnCompra.setBackground(new java.awt.Color(153, 153, 153));
+        btnCompra.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnCompra.setForeground(new java.awt.Color(255, 255, 255));
         btnCompra.setText("Compra Productos ");
         btnCompra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -138,6 +144,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
         });
 
+        btnClientes.setBackground(new java.awt.Color(153, 153, 153));
+        btnClientes.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnClientes.setForeground(new java.awt.Color(255, 255, 255));
         btnClientes.setText("Clientes");
         btnClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -145,6 +154,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
         });
 
+        btnVenta.setBackground(new java.awt.Color(153, 153, 153));
+        btnVenta.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnVenta.setForeground(new java.awt.Color(255, 255, 255));
         btnVenta.setText("Venta Productos");
         btnVenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -152,6 +164,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
         });
 
+        btnInventario.setBackground(new java.awt.Color(153, 153, 153));
+        btnInventario.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnInventario.setForeground(new java.awt.Color(255, 255, 255));
         btnInventario.setText("Inventario");
         btnInventario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

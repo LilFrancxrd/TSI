@@ -141,6 +141,9 @@ public class Usuarios extends javax.swing.JFrame {
             }
         });
 
+        btnRegresar.setBackground(new java.awt.Color(255, 51, 51));
+        btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnRegresar.setForeground(new java.awt.Color(255, 255, 255));
         btnRegresar.setText("Cerrar Sesión");
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -163,6 +166,9 @@ public class Usuarios extends javax.swing.JFrame {
         tblUsuarios.setRowHeight(30);
         scrTabla.setViewportView(tblUsuarios);
 
+        btnHistorialUsuario.setBackground(new java.awt.Color(153, 153, 153));
+        btnHistorialUsuario.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnHistorialUsuario.setForeground(new java.awt.Color(255, 255, 255));
         btnHistorialUsuario.setText("<html>Historial<br>Usuario</html>");
         btnHistorialUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -170,6 +176,9 @@ public class Usuarios extends javax.swing.JFrame {
             }
         });
 
+        btnPermisos.setBackground(new java.awt.Color(153, 153, 153));
+        btnPermisos.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnPermisos.setForeground(new java.awt.Color(255, 255, 255));
         btnPermisos.setText("Cambiar Permisos");
         btnPermisos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -177,6 +186,9 @@ public class Usuarios extends javax.swing.JFrame {
             }
         });
 
+        btnHistorialLogIn.setBackground(new java.awt.Color(153, 153, 153));
+        btnHistorialLogIn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnHistorialLogIn.setForeground(new java.awt.Color(255, 255, 255));
         btnHistorialLogIn.setText("Historial de Accesos");
         btnHistorialLogIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -210,7 +222,7 @@ public class Usuarios extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btnPermisos)
                                     .addComponent(btnHistorialUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 3, Short.MAX_VALUE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(15, 15, 15))))
         );
         jPanel1Layout.setVerticalGroup(

@@ -161,6 +161,9 @@ public class Proveedores extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        btnRegresar.setBackground(new java.awt.Color(255, 51, 51));
+        btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnRegresar.setForeground(new java.awt.Color(255, 255, 255));
         btnRegresar.setText("Cerrar Sesión");
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -188,6 +191,9 @@ public class Proveedores extends javax.swing.JFrame {
             }
         });
 
+        btnCrear.setBackground(new java.awt.Color(153, 153, 153));
+        btnCrear.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnCrear.setForeground(new java.awt.Color(255, 255, 255));
         btnCrear.setText("Crear Proveedor");
         btnCrear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -195,6 +201,9 @@ public class Proveedores extends javax.swing.JFrame {
             }
         });
 
+        cmbCompra.setBackground(new java.awt.Color(0, 204, 0));
+        cmbCompra.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        cmbCompra.setForeground(new java.awt.Color(255, 255, 255));
         cmbCompra.setText("Generar Compra");
         cmbCompra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -205,6 +214,9 @@ public class Proveedores extends javax.swing.JFrame {
         lblFactura.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblFactura.setText("Numero Factura");
 
+        btnFacturas.setBackground(new java.awt.Color(153, 153, 153));
+        btnFacturas.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnFacturas.setForeground(new java.awt.Color(255, 255, 255));
         btnFacturas.setText("Historial Facturas");
         btnFacturas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -212,6 +224,9 @@ public class Proveedores extends javax.swing.JFrame {
             }
         });
 
+        btnInventario.setBackground(new java.awt.Color(153, 153, 153));
+        btnInventario.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnInventario.setForeground(new java.awt.Color(255, 255, 255));
         btnInventario.setText("Inventario");
         btnInventario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -248,6 +263,9 @@ public class Proveedores extends javax.swing.JFrame {
             tblProveedores.getColumnModel().getColumn(5).setPreferredWidth(150);
         }
 
+        btnModificar.setBackground(new java.awt.Color(153, 153, 153));
+        btnModificar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnModificar.setForeground(new java.awt.Color(255, 255, 255));
         btnModificar.setText("Modificar Proveedor");
         btnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -255,6 +273,9 @@ public class Proveedores extends javax.swing.JFrame {
             }
         });
 
+        btnBorrar.setBackground(new java.awt.Color(255, 51, 51));
+        btnBorrar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnBorrar.setForeground(new java.awt.Color(255, 255, 255));
         btnBorrar.setText("Borrar Proveedor");
         btnBorrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -265,6 +286,9 @@ public class Proveedores extends javax.swing.JFrame {
         lblLista.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblLista.setText("Lista de Proveedores");
 
+        btnBuscar.setBackground(new java.awt.Color(51, 204, 0));
+        btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -272,6 +296,9 @@ public class Proveedores extends javax.swing.JFrame {
             }
         });
 
+        btnReiniciar.setBackground(new java.awt.Color(153, 153, 153));
+        btnReiniciar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnReiniciar.setForeground(new java.awt.Color(255, 255, 255));
         btnReiniciar.setText("Reiniciar Tabla");
         btnReiniciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -299,7 +326,7 @@ public class Proveedores extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(12, 12, 12)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(37, 37, 37)
                         .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)

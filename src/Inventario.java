@@ -248,6 +248,9 @@ public class Inventario extends javax.swing.JFrame {
             }
         });
 
+        btnRegresar.setBackground(new java.awt.Color(255, 51, 51));
+        btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnRegresar.setForeground(new java.awt.Color(255, 255, 255));
         btnRegresar.setText("Cerrar Sesión");
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -255,6 +258,9 @@ public class Inventario extends javax.swing.JFrame {
             }
         });
 
+        btnCompra.setBackground(new java.awt.Color(153, 153, 153));
+        btnCompra.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnCompra.setForeground(new java.awt.Color(255, 255, 255));
         btnCompra.setText("Compra Productos ");
         btnCompra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -262,6 +268,9 @@ public class Inventario extends javax.swing.JFrame {
             }
         });
 
+        btnVenta.setBackground(new java.awt.Color(153, 153, 153));
+        btnVenta.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnVenta.setForeground(new java.awt.Color(255, 255, 255));
         btnVenta.setText("Venta Productos");
         btnVenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -295,6 +304,9 @@ public class Inventario extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblProductos);
 
+        btnCrear.setBackground(new java.awt.Color(0, 204, 0));
+        btnCrear.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnCrear.setForeground(new java.awt.Color(255, 255, 255));
         btnCrear.setText("Crear Producto");
         btnCrear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -302,6 +314,9 @@ public class Inventario extends javax.swing.JFrame {
             }
         });
 
+        btnBorrar.setBackground(new java.awt.Color(255, 51, 51));
+        btnBorrar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnBorrar.setForeground(new java.awt.Color(255, 255, 255));
         btnBorrar.setText("Borrar Producto");
         btnBorrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -309,6 +324,9 @@ public class Inventario extends javax.swing.JFrame {
             }
         });
 
+        btnModificar.setBackground(new java.awt.Color(153, 153, 153));
+        btnModificar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnModificar.setForeground(new java.awt.Color(255, 255, 255));
         btnModificar.setText("Modificar Producto");
         btnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -330,6 +348,9 @@ public class Inventario extends javax.swing.JFrame {
             }
         });
 
+        btnReiniciar.setBackground(new java.awt.Color(153, 153, 153));
+        btnReiniciar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnReiniciar.setForeground(new java.awt.Color(255, 255, 255));
         btnReiniciar.setText("<html>Reiniciar<br> Tabla</html>");
         btnReiniciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -337,6 +358,9 @@ public class Inventario extends javax.swing.JFrame {
             }
         });
 
+        btnDetalles.setBackground(new java.awt.Color(153, 153, 153));
+        btnDetalles.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnDetalles.setForeground(new java.awt.Color(255, 255, 255));
         btnDetalles.setText("Detalles Producto");
         btnDetalles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -353,9 +377,9 @@ public class Inventario extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addComponent(btnPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(48, 48, 48)
+                        .addGap(52, 52, 52)
                         .addComponent(btnCompra)
-                        .addGap(77, 77, 77)
+                        .addGap(73, 73, 73)
                         .addComponent(btnVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -463,7 +487,7 @@ public class Inventario extends javax.swing.JFrame {
 
     private void btnVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentaActionPerformed
         this.dispose();
-        new Venta(usuario,estado).setVisible(true);
+        new VentaFianza(usuario,estado).setVisible(true);
     }//GEN-LAST:event_btnVentaActionPerformed
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed

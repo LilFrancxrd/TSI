@@ -45,12 +45,21 @@
                           <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="lblBuscar" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="txtBuscarBoleta" min="-2" pref="151" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="btnRecargar" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="lblBuscar" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="txtBuscarBoleta" min="-2" pref="151" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                  <Component id="btnRecargar" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="lblTipoBoleta" min="-2" pref="131" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="cmbTipoBoleta" min="-2" pref="194" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                           <Component id="btnDetalleBoleta" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="btnEliminarBoleta" min="-2" max="-2" attributes="0"/>
@@ -77,13 +86,24 @@
                   <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                   <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtBuscarBoleta" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnRecargar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnDetalleBoleta" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
-                      <Component id="btnVolver" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
-                      <Component id="btnEliminarBoleta" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="btnDetalleBoleta" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
+                          <Component id="btnVolver" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
+                          <Component id="btnEliminarBoleta" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtBuscarBoleta" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnRecargar" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblTipoBoleta" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cmbTipoBoleta" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jSeparator2" min="-2" pref="11" max="-2" attributes="0"/>
@@ -245,6 +265,32 @@
             </Property>
             <Property name="text" type="java.lang.String" value="0example"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblTipoBoleta">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Filtrar Tipo Boleta"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="cmbTipoBoleta">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="4">
+                <StringItem index="0" value="Todas"/>
+                <StringItem index="1" value="Boletas Ventas Regulares"/>
+                <StringItem index="2" value="Boletas Ventas Con Fianza(Deuda)"/>
+                <StringItem index="3" value="Boletas de Destrucci&#xf3;n de Productos"/>
+              </StringArray>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbTipoBoletaActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
