@@ -26,16 +26,13 @@ public class HistorialBoletas extends javax.swing.JFrame {
     private void inicializarComponentes() {
         modeloBoletas = (DefaultTableModel) tablaBoletas.getModel();
         
-        // Configurar tabla
         tablaBoletas.setDefaultEditor(Object.class, null);
         tablaBoletas.getTableHeader().setReorderingAllowed(false);
         tablaBoletas.setAutoCreateRowSorter(true);
         
-        // Configurar sorter para búsqueda
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modeloBoletas);
         tablaBoletas.setRowSorter(sorter);
         
-        // Configurar filtro de búsqueda
         txtBuscarBoleta.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
             @Override
             public void insertUpdate(javax.swing.event.DocumentEvent e) {
@@ -51,7 +48,6 @@ public class HistorialBoletas extends javax.swing.JFrame {
             }
         });
         
-        // Permitir doble click para ver detalles
         tablaBoletas.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -65,7 +61,6 @@ public class HistorialBoletas extends javax.swing.JFrame {
     private void configurarSegunUsuario() {
         setTitle("Historial de Boletas - Usuario: " + usuario);
         
-        // Botón para eliminar boleta solo si tiene permisos
         if (!permisos) {
             btnEliminarBoleta.setEnabled(false);
             btnEliminarBoleta.setToolTipText("No tiene permisos para eliminar boletas");
@@ -127,7 +122,6 @@ public class HistorialBoletas extends javax.swing.JFrame {
                 });
             }
             
-            // Actualizar contador
             lblTotalBoletas.setText(String.valueOf(modeloBoletas.getRowCount()));
             
         } catch (SQLException e) {
@@ -149,11 +143,9 @@ public class HistorialBoletas extends javax.swing.JFrame {
             return;
         }
         
-        // Convertir índice de fila filtrada a índice del modelo
         int modelRow = tablaBoletas.convertRowIndexToModel(filaSeleccionada);
         int idBoleta = (int) modeloBoletas.getValueAt(modelRow, 0);
         
-        // Abrir ventana de detalles (debes crear esta clase)
         DetalleBoleta detalle = new DetalleBoleta(idBoleta);
         detalle.setVisible(true);
         detalle.setLocationRelativeTo(this);
@@ -201,13 +193,11 @@ public class HistorialBoletas extends javax.swing.JFrame {
             conn = obtenerConexion();
             conn.setAutoCommit(false);
             
-            // 1. Obtener detalles de productos para restaurar stock
             String sqlSelect = "SELECT codProducto, cantidad FROM detalleboletaproductos WHERE idBoleta = ?";
             PreparedStatement pstmtSelect = conn.prepareStatement(sqlSelect);
             pstmtSelect.setInt(1, idBoleta);
             ResultSet rs = pstmtSelect.executeQuery();
             
-            // 2. Restaurar stock
             String sqlUpdate = "UPDATE productos SET stock = stock + ? WHERE codProducto = ?";
             PreparedStatement pstmtUpdate = conn.prepareStatement(sqlUpdate);
             
@@ -223,21 +213,18 @@ public class HistorialBoletas extends javax.swing.JFrame {
             pstmtSelect.close();
             pstmtUpdate.close();
             
-            // 3. Eliminar detalles de boleta
             String sqlDeleteDetalles = "DELETE FROM detalleboletaproductos WHERE idBoleta = ?";
             PreparedStatement pstmtDetalles = conn.prepareStatement(sqlDeleteDetalles);
             pstmtDetalles.setInt(1, idBoleta);
             pstmtDetalles.executeUpdate();
             pstmtDetalles.close();
             
-            // 4. Eliminar deudas asociadas
             String sqlDeleteDeudas = "DELETE FROM deudas WHERE idBoleta = ?";
             PreparedStatement pstmtDeudas = conn.prepareStatement(sqlDeleteDeudas);
             pstmtDeudas.setInt(1, idBoleta);
             pstmtDeudas.executeUpdate();
             pstmtDeudas.close();
             
-            // 5. Eliminar boleta
             String sqlDeleteBoleta = "DELETE FROM boletas WHERE idBoleta = ?";
             PreparedStatement pstmtBoleta = conn.prepareStatement(sqlDeleteBoleta);
             pstmtBoleta.setInt(1, idBoleta);
@@ -252,7 +239,6 @@ public class HistorialBoletas extends javax.swing.JFrame {
                 "Eliminación Exitosa",
                 JOptionPane.INFORMATION_MESSAGE);
             
-            // Recargar datos
             cargarBoletas();
             
         } catch (SQLException e) {

@@ -30,14 +30,12 @@ public class DetalleBoleta extends javax.swing.JDialog {
     private void cargarDetallesBoleta() {
         modeloDetalles.setRowCount(0);
         
-        // Cargar información general de la boleta
         String sqlInfo = "SELECT b.*, d.nomDeudor, d.rutDeudor " +
                         "FROM boletas b " +
                         "LEFT JOIN deudas deu ON b.idBoleta = deu.idBoleta " +
                         "LEFT JOIN deudores d ON deu.rutDeudor = d.rutDeudor " +
                         "WHERE b.idBoleta = ?";
         
-        // Cargar productos de la boleta
         String sqlProductos = "SELECT dbp.*, p.nomProducto " +
                              "FROM detalleboletaproductos dbp " +
                              "JOIN productos p ON dbp.codProducto = p.codProducto " +
@@ -45,7 +43,6 @@ public class DetalleBoleta extends javax.swing.JDialog {
         
         try (Connection conn = obtenerConexion()) {
             
-            // 1. Cargar información general
             PreparedStatement pstmtInfo = conn.prepareStatement(sqlInfo);
             pstmtInfo.setInt(1, idBoleta);
             ResultSet rsInfo = pstmtInfo.executeQuery();
@@ -69,7 +66,6 @@ public class DetalleBoleta extends javax.swing.JDialog {
             rsInfo.close();
             pstmtInfo.close();
             
-            // 2. Cargar productos
             PreparedStatement pstmtProd = conn.prepareStatement(sqlProductos);
             pstmtProd.setInt(1, idBoleta);
             ResultSet rsProd = pstmtProd.executeQuery();
@@ -85,7 +81,6 @@ public class DetalleBoleta extends javax.swing.JDialog {
                 double totalFiado = rsProd.getDouble("totalFiado");
                 double subtotal = precioUnitario * cantidad;
                 
-                // Determinar si el producto fue fiado
                 String estado = (totalFiado > 0) ? "Fiado" : "Pagado";
                 
                 modeloDetalles.addRow(new Object[]{
